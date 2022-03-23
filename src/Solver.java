@@ -12,7 +12,7 @@ public class Solver {
 
 
     public Solver(Board initial) {
-        if (!initial.isSolvable()) throw new IllegalArgumentException("Unsolvable puzzle");
+        if (!initial.isSolvable()) throw new IllegalArgumentException("Unsolvable puzzle"); //chama a função pra ver se é resolvível
 
 
         PriorityQueue<SearchNode> minPQ = new PriorityQueue<SearchNode>(initial.size() + 10);
@@ -42,7 +42,7 @@ public class Solver {
     }
 
 
-    public int moves() {
+    public int moves() { //número mínimo de movimentos p resolver o puzzle
         if (boards != null) return boards.size()-1;
         solution();
         return boards.size() - 1;
@@ -80,7 +80,7 @@ public class Solver {
 
     }
     public static void main(String[] args) {
-        int[][] tiles = {{1, 2, 3, 4},
+        int[][] tiles = {{1, 2, 3, 4}, //altera a matriz inicial (alterar tamanho em Board também)
                 {5, 6, 7, 8},
                 {9, 10, 11, 12},
                 {13, 14, 0, 15}
@@ -91,7 +91,7 @@ public class Solver {
         double start = System.currentTimeMillis();
         Board board = new Board(tiles);
         Solver solve = new Solver(board);
-        System.out.printf("# of moves = %d && # of actual moves %d & time passed %f\n, ", solve.moves(), solve.moves, (System.currentTimeMillis() - start) / 1000);
+        System.out.printf("number of moves = %d & time passed %f\n, ", solve.moves(), (System.currentTimeMillis() - start) / 1000); //printa o resultado e o tempo de resolução
 
 
     }

@@ -15,11 +15,11 @@ import java.util.HashSet;
         private Collection<Board> neighbors;
 
         public Board(int[][] tiles) {
-            this.N = 4;
-            this.tilesCopy = new int[N][N];
+            this.N = 4; //número da matriz
+            this.tilesCopy = new int[N][N]; //cria matriz
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
-                    if (tiles[i][j] >= 0 && tiles[i][j] < N*N) tilesCopy[i][j] = tiles[i][j];
+                    if (tiles[i][j] >= 0 && tiles[i][j] < N*N) tilesCopy[i][j] = tiles[i][j];//verifica se o número é válido
                     else {
                         System.out.printf("Illegal tile value at (%d, %d): "
                                 + "should be between 0 and N^2 - 1.", i, j);
@@ -31,19 +31,19 @@ import java.util.HashSet;
         }
 
         public int tileAt(int row, int col) {
-            if (row < 0 || row > N - 1) throw new IndexOutOfBoundsException
+            if (row < 0 || row > N - 1) throw new IndexOutOfBoundsException //nao deixa sair do tabuleiro
                     ("row should be between 0 and N - 1");
             if (col < 0 || col > N - 1) throw new IndexOutOfBoundsException
                     ("col should be between 0 and N - 1");
 
-            return tilesCopy[row][col];
+            return tilesCopy[row][col]; //retorna posição de um quadrado em "row" "col"
         }
 
-        public int size() {
+        public int size() { //retorna o tamanho do tabuleiro
             return N;
         }
 
-        public int hamming() {
+        public int hamming() { //função de hamming, conta os quadrados fora do lugar correto
             int hamming = 0;
             for (int row = 0; row < this.size(); row++) {
                 for (int col = 0; col < this.size(); col++) {
@@ -53,7 +53,7 @@ import java.util.HashSet;
             return hamming;
         }
 
-        public int manhattan() {
+        public int manhattan() { //soma da distância dos quadrados até o lugar certo
             int manhattan = 0;
 
             int expectedRow = 0, expectedCol = 0;
@@ -69,9 +69,9 @@ import java.util.HashSet;
             return manhattan;
         }
 
-        public boolean isGoal() {
+        public boolean isGoal() { //verifica se já está correto
 
-            if (tileAt(N-1, N-1) != 0) return false;        // prune
+            if (tileAt(N-1, N-1) != 0) return false;
 
             for (int i = 0; i < this.size(); i++) {
                 for (int j = 0; j < this.size(); j++) {
@@ -81,7 +81,7 @@ import java.util.HashSet;
 
             return true;
         }
-        public boolean isSolvable() {
+        public boolean isSolvable() { //verifica se é resolvível
             int inversions = 0;
 
             for (int i = 0; i < this.size() * this.size(); i++) {
@@ -113,21 +113,14 @@ import java.util.HashSet;
 
 
         @Override
-        public boolean equals(Object y) {
+        public boolean equals(Object y) { //verifica se é igual ao tabuleiro y
             if (!(y instanceof Board)) return false;
             Board that = (Board) y;
             return this.tileAt(N - 1, N - 1) == that.tileAt(N - 1, N - 1) && this.size() == that.size() && Arrays.deepEquals(this.tilesCopy, that.tilesCopy);
 
         }
 
-        @Override
-        public int hashCode() {
-            if (this.hashCode != -1) return hashCode;
-            this.hashCode = Arrays.deepHashCode(tilesCopy);
-            return this.hashCode;
-        }
-
-        public Collection<Board> neighbors() {
+        public Collection<Board> neighbors() { //gera os tabuleiros vizinhos
             if (neighbors != null) return neighbors;
             if (this.zeroRow == -1 && this.zeroCol == -1) findZeroTile();
 
@@ -146,7 +139,7 @@ import java.util.HashSet;
             for (int i = 0; i < this.size(); i++) {
                 for (int j = 0; j < this.size(); j++) {
                     if (tileAt(i, j) == 0) {
-                        this.zeroRow = i;       // index starting from 0
+                        this.zeroRow = i;       // indice começa em 0
                         this.zeroCol = j;
                         break outerloop;
                     }
@@ -168,7 +161,7 @@ import java.util.HashSet;
             array[toRow][toCol] = i;
         }
 
-        public String toString() {
+        public String toString() { //transforma em string
             StringBuilder s = new StringBuilder(4 * N * N);
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
